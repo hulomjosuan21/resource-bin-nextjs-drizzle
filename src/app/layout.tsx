@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {ThemeProvider} from "@/components/theme-provider";
-import {SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
-import {AppSidebar} from "@/components/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 import AddResource from "@/app/add-resource";
-import {Toaster} from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/toaster";
+import ThemeProvider from "@/components/theme-provider"
 
 export const metadata: Metadata = {
   title: "Josuan | Resource",
@@ -21,24 +21,24 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
-      <ThemeProvider
+        <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-      >
+        >
           <SidebarProvider className="grid sm:grid-cols-[auto,1fr] grid-cols-1">
-              <AppSidebar/>
-              <main className={'relative'}>
-                  <header className={'sticky top-0 z-10 bg-background flex p-2 justify-between'}>
-                      <SidebarTrigger />
-                      <AddResource/>
-                  </header>
-                  {children}
-              </main>
-              <Toaster />
+            <AppSidebar />
+            <main className={'relative'}>
+              <header className={'sticky top-0 z-10 bg-background flex p-2 justify-between'}>
+                <SidebarTrigger />
+                <AddResource />
+              </header>
+              {children}
+            </main>
+            <Toaster />
           </SidebarProvider>
-      </ThemeProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
