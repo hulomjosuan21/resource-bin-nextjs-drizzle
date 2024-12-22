@@ -7,13 +7,14 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import resourceType from "@/types/resource-type";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Clipboard } from "lucide-react";
-import {Input} from "@/components/ui/input";
-import {RESOURCE_ENUM} from "@/constants/resource-enum";
-import {useToast} from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
+import { RESOURCE_ENUM } from "@/constants/resource-enum";
+import { useToast } from "@/hooks/use-toast";
+import { deleteResource } from "@/actions/resource-actions";
 
-export default function ResourceCard({resource}:{resource:resourceType}){
+export default function ResourceCard({ resource }: { resource: resourceType }) {
     const { toast } = useToast();
 
     function linkCopyToClipboard(text: string) {
@@ -69,12 +70,12 @@ export default function ResourceCard({resource}:{resource:resourceType}){
     }
 
     const Content = () => {
-        if(resource.tags == RESOURCE_ENUM.CODE_LINK){
-            return ( <>
+        if (resource.tags == RESOURCE_ENUM.CODE_LINK) {
+            return (<>
                 <div className={'flex flex-row-reverse gap-1 items-center mb-2'}>
                     <Input value={resource.link as string} readOnly={true} className={'text-xs'} />
                     <Button variant={'ghost'} size={'icon'} onClick={() => linkCopyToClipboard(resource.link as string)}>
-                        <Clipboard/>
+                        <Clipboard />
                     </Button>
                 </div>
 
@@ -82,44 +83,48 @@ export default function ResourceCard({resource}:{resource:resourceType}){
                     <div className="relative w-full p-2 rounded-lg border max-h-[200px] overflow-y-auto">
                         <div className={'sticky z-[2] top-0 flex justify-end w-full'}>
                             <Button variant={'ghost'} size={'icon'} onClick={() => codeCopyToClipboard(resource.code as string)}>
-                                <Clipboard/>
+                                <Clipboard />
                             </Button>
                         </div>
                         <pre className="overflow-x-auto text-xs break-words">
-                        <code>
-                            {resource.code}
-                        </code>
-                      </pre>
+                            <code>
+                                {resource.code}
+                            </code>
+                        </pre>
                     </div>
                 </div>
             </>)
-        }else if(resource.tags == RESOURCE_ENUM.CODE_ONLY) {
+        } else if (resource.tags == RESOURCE_ENUM.CODE_ONLY) {
             return (
                 <div className="relative w-full p-2 rounded-lg border max-h-[200px] overflow-y-auto">
                     <div className={'sticky z-[2] top-0 flex justify-end w-full'}>
                         <Button variant={'ghost'} size={'icon'} onClick={() => codeCopyToClipboard(resource.code as string)}>
-                            <Clipboard/>
+                            <Clipboard />
                         </Button>
                     </div>
                     <pre className="overflow-x-auto text-xs break-words">
                         <code>
                             {resource.code}
                         </code>
-                      </pre>
+                    </pre>
                 </div>
             )
         } else {
             return (<div className={'flex gap-1 items-center mb-2'}>
-                <Input value={resource.link as string} readOnly={true} className={'text-xs'}/>
+                <Input value={resource.link as string} readOnly={true} className={'text-xs'} />
                 <Button variant={'ghost'} size={'icon'} onClick={() => linkCopyToClipboard(resource.link as string)}>
-                    <Clipboard/>
+                    <Clipboard />
                 </Button>
             </div>)
         }
     }
 
+    const handleDelete = async () => {
+        await deleteResource(resource.id as number)
+    }
+
     return (
-        <Card className={'w-80 h-fit'}>
+        <Card className={'w-80 h-fit relative'} onDoubleClick={handleDelete}>
             <CardHeader>
                 <CardTitle className={'text-md break-words'}>{resource.title}</CardTitle>
                 <CardDescription className={'text-xs'}>
@@ -129,7 +134,7 @@ export default function ResourceCard({resource}:{resource:resourceType}){
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                {<Content/>}
+                {<Content />}
             </CardContent>
         </Card>
     )
