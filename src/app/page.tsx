@@ -1,13 +1,12 @@
-import {db} from "@/db/drizzle";
-import {resourceTable} from "@/db/schemas/schema";
+import {getResources} from "@/actions/resource-actions";
+import DisplayResources from "@/app/display-resouces";
 
 export default async function Home(){
-    const resources = await db.select().from(resourceTable);
-
-    console.log(resources)
+    const resources = await getResources();
 
     return (
         <main>
+            <DisplayResources resources={resources}/>
 
         </main>
     )

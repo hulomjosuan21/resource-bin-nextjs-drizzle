@@ -1,23 +1,24 @@
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
-    SidebarGroup,
-    SidebarHeader,
+    SidebarHeader, SidebarMenu, SidebarMenuButton,
 } from "@/components/ui/sidebar"
 import {ModeToggle} from "@/components/theme-toggle";
+import Link from "next/link";
 
 export function AppSidebar() {
     return (
         <Sidebar>
-            <SidebarHeader />
-            <SidebarContent>
-                <SidebarGroup />
-                <SidebarGroup />
-            </SidebarContent>
-            <SidebarFooter>
+            <SidebarHeader>
                 <ModeToggle/>
-            </SidebarFooter>
+            </SidebarHeader>
+            <SidebarContent>
+                <SidebarMenu>
+                    <SidebarMenuButton>
+                        <Link href={'/'}>Resource</Link>
+                    </SidebarMenuButton>
+                </SidebarMenu>
+            </SidebarContent>
         </Sidebar>
     )
 }
